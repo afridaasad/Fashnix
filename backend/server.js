@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
+
 
 dotenv.config();
 
@@ -19,6 +22,8 @@ app.use("/api/auth", authRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Fashnix API running" });
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // MongoDB Connection + Start Server
 mongoose
