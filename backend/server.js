@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 const authRoutes = require("./routes/authRoutes");
 
@@ -14,21 +15,21 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 
-// MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    family: 4
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("MongoDB connection error:", err));
-
 // Test Route
 app.get("/", (req, res) => {
   res.json({ message: "Fashnix API running" });
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// MongoDB Connection + Start Server
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
+  });
