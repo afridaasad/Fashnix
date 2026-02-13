@@ -68,6 +68,22 @@ router.post("/register", register);
  */
 
 router.post("/login", login);
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get current logged-in user
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns current user
+ *       401:
+ *         description: Unauthorized
+ */
+
 router.get("/me", protect, (req, res) => {
   res.status(200).json({
     message: "Protected route accessed",
