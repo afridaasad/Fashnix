@@ -40,6 +40,33 @@ const { protect } = require("../middleware/authMiddleware");
  */
 
 router.post("/register", register);
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Login user
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Invalid credentials
+ */
+
 router.post("/login", login);
 router.get("/me", protect, (req, res) => {
   res.status(200).json({
